@@ -23,6 +23,7 @@ CrimeRate2000thru2019RateA <- as.factor(CrimeRate2000thru2019Rate)
 ggplot(CrimeRate2000thru2019A, aes(`Murder/NonNegligentManslaughter`)) + geom_bar()
 ### This isnt seeming to do what i want and Tableau created the graphs I wanted
 
+## Load in some more libraries to start running statistics. 
 library(dplyr)
 library(rcompanion)
 library(ggplot2)
