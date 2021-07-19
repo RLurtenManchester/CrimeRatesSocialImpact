@@ -20,5 +20,14 @@ str(CrimeRate2000thru2019Rate)
 
 CrimeRate2000thru2019RateA <- as.factor(CrimeRate2000thru2019Rate)
 
-ggplot(CrimeRate2000thru2019A, aes(CrimeRate2000thru2019A$`Murder/NonNegligentManslaughter`)) + geom_bar()
+ggplot(CrimeRate2000thru2019A, aes(`Murder/NonNegligentManslaughter`)) + geom_bar()
 ### This isnt seeming to do what i want and Tableau created the graphs I wanted
+
+library(dplyr)
+library(rcompanion)
+library(ggplot2)
+library(car)
+library(IDPmisc)
+plotNormalHistogram(CrimeRate2000thru2019A$`Murder/NonNegligentManslaughter`)
+plotNormalHistogram(CrimeRate2000thru2019A$`Rape(LegacyDefinition)`)
+plotNormalHistogram(CrimeRate2000thru2019A$ViolentCrime)
