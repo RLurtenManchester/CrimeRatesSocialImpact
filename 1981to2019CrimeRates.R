@@ -34,7 +34,19 @@ CrimeByNumber81_19 <-rbind(CrimeByNumber81_99B, CrimeByNumber00_19A)
 library(rcompanion)
 str(CrimeByNumber81_19)
 ## All of the data seems to be in chr format, let me turn that in to num
+CrimeByNumber81_19$Year <- as.numeric(CrimeByNumber81_19$Year)
+CrimeByNumber81_19$Population <- as.numeric(CrimeByNumber81_19$Population)
+CrimeByNumber81_19$ViolentCrime <- as.numeric(CrimeByNumber81_19$ViolentCrime)
+CrimeByNumber81_19$`Murder/NonNegligentManslaughter` <- as.numeric(CrimeByNumber81_19$`Murder/NonNegligentManslaughter`)
+CrimeByNumber81_19$Rape <- as.numeric(CrimeByNumber81_19$Rape)
+CrimeByNumber81_19$Robbery <- as.numeric(CrimeByNumber81_19$Robbery)
+CrimeByNumber81_19$AggravatedAssault <- as.numeric(CrimeByNumber81_19$AggravatedAssault)
+CrimeByNumber81_19$PropertyCrime <- as.numeric(CrimeByNumber81_19$PropertyCrime)
+CrimeByNumber81_19$Burglary <- as.numeric(CrimeByNumber81_19$Burglary)
+CrimeByNumber81_19$`Larceny/Theft` <- as.numeric(CrimeByNumber81_19$`Larceny/Theft`)
+CrimeByNumber81_19$MotorVehicleTheft <- as.numeric(CrimeByNumber81_19$MotorVehicleTheft)
 
-plotNormalHistogram(CrimeByNumber81_19$`Murder/NonNegligentManslaughter`)
+str(CrimeByNumber81_19)
+##I seemed to have messed up the population column, I need to figure out how to get that fixed. 
 ## There seems to be a problem with a couple of the years, lets fix that really quick
 
