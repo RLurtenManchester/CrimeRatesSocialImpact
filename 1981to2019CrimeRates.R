@@ -52,3 +52,21 @@ str(CrimeByNumber81_19)
 CrimeByNumber81_19[21, 1] <- 2001
 CrimeByNumber81_19[38, 1] <- 2018
 
+# Lets check for Normal Distribution so we can get into some interpretation of the data. 
+plotNormalHistogram(CrimeByNumber81_19$ViolentCrime)
+plotNormalHistogram(CrimeByNumber81_19$`Murder/NonNegligentManslaughter`)
+### This is positively skewed
+plotNormalHistogram(CrimeByNumber81_19$Rape)
+# This is normally distributed
+plotNormalHistogram(CrimeByNumber81_19$Robbery)
+## This is fairly flat but it is normally distributed
+plotNormalHistogram(CrimeByNumber81_19$AggravatedAssault)
+# This is normally distributed
+plotNormalHistogram(CrimeByNumber81_19$PropertyCrime)
+### This is negatively skewed
+plotNormalHistogram(CrimeByNumber81_19$Burglary)
+# This is normally distributed
+plotNormalHistogram(CrimeByNumber81_19$`Larceny/Theft`)
+### This is negatively skewed
+plotNormalHistogram(CrimeByNumber81_19$MotorVehicleTheft)
+# This is flat but normally distributed
