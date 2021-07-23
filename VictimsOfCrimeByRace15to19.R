@@ -114,4 +114,4 @@ VictimByRace2015to2019 <- rbind(VictimByRace2015B, VictimByRace2016B, VictimByRa
 ## Now lets check the data format
 str(VictimByRace2015to2019)
 ## Lets change these into numeric
-VictimByRace2015to2019$Total <- as.numeric(VictimByRace2015to2019$Total)
+
