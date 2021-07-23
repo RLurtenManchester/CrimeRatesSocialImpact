@@ -46,4 +46,61 @@ VictimByGender2019 <- victims_sex_by_offense_category_2019 [5:25, 1:5]
 colnames(VictimByGender2019) <- c("Total", "TotalVictims2019", "Male2019", "Female2019", 
                                   "unknown2019")
 
+### Load in libraries to keep working on this
+library(ggplot2)
+library(tidyr)
+library(dplyr)
 
+## 2015
+VictimByGender2015A <- t(VictimByGender2015)
+VictimByGender2015B <- VictimByGender2015A [2:5, ]
+colnames(VictimByGender2015B)<- c("Total", "CrimesAgainstPersons", "AssaultOffenses", "HomicideOffenses",
+                                  "HumanTraffickingOffenses", "Kidnapping/Abduction", "SexOffenses", 
+                                  "SexOffenses/NonForcible", "CrimesAgainstProperty", "Arson", "Bribery", 
+                                  "Burglary/BrakingEntering", "Counterfeiting/Forgery", "Destruction/Damage/Vandalism", 
+                                  "Embezzelment", "Extortion/Blackmail", "FraudOffenses", "Larceny/Theft","MotorVehicleTheft",
+                                  "Robbery", "StolenPropertyOffenses")
+
+## 2016
+VictimByGender2016A <- t(VictimByGender2016)
+VictimByGender2016B <- VictimByGender2016A [2:5, ]
+colnames(VictimByGender2016B)<- c("Total", "CrimesAgainstPersons", "AssaultOffenses", "HomicideOffenses",
+                                  "HumanTraffickingOffenses", "Kidnapping/Abduction", "SexOffenses", 
+                                  "SexOffenses/NonForcible", "CrimesAgainstProperty", "Arson", "Bribery", 
+                                  "Burglary/BrakingEntering", "Counterfeiting/Forgery", "Destruction/Damage/Vandalism", 
+                                  "Embezzelment", "Extortion/Blackmail", "FraudOffenses", "Larceny/Theft","MotorVehicleTheft",
+                                  "Robbery", "StolenPropertyOffenses")
+
+## 2017
+VictimByGender2017A <- t(VictimByGender2017)
+VictimByGender2017B <- VictimByGender2017A [2:5, ]
+colnames(VictimByGender2017B)<- c("Total", "CrimesAgainstPersons", "AssaultOffenses", "HomicideOffenses",
+                                  "HumanTraffickingOffenses", "Kidnapping/Abduction", "SexOffenses", 
+                                  "SexOffenses/NonForcible", "CrimesAgainstProperty", "Arson", "Bribery", 
+                                  "Burglary/BrakingEntering", "Counterfeiting/Forgery", "Destruction/Damage/Vandalism", 
+                                  "Embezzelment", "Extortion/Blackmail", "FraudOffenses", "Larceny/Theft","MotorVehicleTheft",
+                                  "Robbery", "StolenPropertyOffenses")
+
+## 2018
+VictimByGender2018A <- t(VictimByGender2018)
+VictimByGender2018B <- VictimByGender2018A [2:5, ]
+colnames(VictimByGender2018B)<- c("Total", "CrimesAgainstPersons", "AssaultOffenses", "HomicideOffenses",
+                                  "HumanTraffickingOffenses", "Kidnapping/Abduction", "SexOffenses", 
+                                  "SexOffenses/NonForcible", "CrimesAgainstProperty", "Arson", "Bribery", 
+                                  "Burglary/BrakingEntering", "Counterfeiting/Forgery", "Destruction/Damage/Vandalism", 
+                                  "Embezzelment", "Extortion/Blackmail", "FraudOffenses", "Larceny/Theft","MotorVehicleTheft",
+                                  "Robbery", "StolenPropertyOffenses")
+
+## 2019
+VictimByGender2019A <- t(VictimByGender2019)
+VictimByGender2019B <- VictimByGender2019A [2:5, ]
+colnames(VictimByGender2019B)<- c("Total", "CrimesAgainstPersons", "AssaultOffenses", "HomicideOffenses",
+                                  "HumanTraffickingOffenses", "Kidnapping/Abduction", "SexOffenses", 
+                                  "SexOffenses/NonForcible", "CrimesAgainstProperty", "Arson", "Bribery", 
+                                  "Burglary/BrakingEntering", "Counterfeiting/Forgery", "Destruction/Damage/Vandalism", 
+                                  "Embezzelment", "Extortion/Blackmail", "FraudOffenses", "Larceny/Theft","MotorVehicleTheft",
+                                  "Robbery", "StolenPropertyOffenses")
+
+# Now lets put all of them together and see how it looks
+VictimByGender2015to2019 <- rbind(VictimByGender2015B, VictimByGender2016B, VictimByGender2017B,
+                                  VictimByGender2018B, VictimByGender2019B)
