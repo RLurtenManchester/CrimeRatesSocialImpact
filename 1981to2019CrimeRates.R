@@ -35,7 +35,6 @@ library(rcompanion)
 str(CrimeByNumber81_19)
 ## All of the data seems to be in chr format, let me turn that in to num
 CrimeByNumber81_19$Year <- as.numeric(CrimeByNumber81_19$Year)
-CrimeByNumber81_19$Population <- as.numeric(CrimeByNumber81_19$Population)
 CrimeByNumber81_19$ViolentCrime <- as.numeric(CrimeByNumber81_19$ViolentCrime)
 CrimeByNumber81_19$`Murder/NonNegligentManslaughter` <- as.numeric(CrimeByNumber81_19$`Murder/NonNegligentManslaughter`)
 CrimeByNumber81_19$Rape <- as.numeric(CrimeByNumber81_19$Rape)
@@ -47,6 +46,9 @@ CrimeByNumber81_19$`Larceny/Theft` <- as.numeric(CrimeByNumber81_19$`Larceny/The
 CrimeByNumber81_19$MotorVehicleTheft <- as.numeric(CrimeByNumber81_19$MotorVehicleTheft)
 
 str(CrimeByNumber81_19)
-##I seemed to have messed up the population column, I need to figure out how to get that fixed. 
+##The population column seems to go crazy when I try to change it into numeric, so we aren't doing that.
 ## There seems to be a problem with a couple of the years, lets fix that really quick
+
+CrimeByNumber81_19[21, 1] <- 2001
+CrimeByNumber81_19[38, 1] <- 2018
 
