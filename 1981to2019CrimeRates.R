@@ -23,7 +23,7 @@ colnames(CrimeByNumber00_19) = c("Year", "Population", "ViolentCrime", "ViolentC
                                  "Burglary", "BurglaryRate", "Larceny/Theft", "Larceny/TheftRate", "MotorVehicleTheft", "MotorVehicleTheftRate")
 
 #Lets subset 00_19 to only have the same info as 81_00
-keeps<- c("Year", "Population", "ViolentCrime", "Murder/NonNegligentManslaughter", "Rape", "Robbery", "AggravatedAssault", "PropertyCrime","Burglary", "Larceny/Theft", "MotorVehicleTheft")
+keeps<- c("Year", "ViolentCrime", "Murder/NonNegligentManslaughter", "Rape", "Robbery", "AggravatedAssault", "PropertyCrime","Burglary", "Larceny/Theft", "MotorVehicleTheft")
 
 CrimeByNumber00_19A <- CrimeByNumber00_19[keeps]
 CrimeByNumber81_99B <- CrimeByNumber81_99A[keeps]
@@ -54,6 +54,7 @@ CrimeByNumber81_19[38, 1] <- 2018
 
 # Lets check for Normal Distribution so we can get into some interpretation of the data. 
 plotNormalHistogram(CrimeByNumber81_19$ViolentCrime)
+### This is slightly positively skewed
 plotNormalHistogram(CrimeByNumber81_19$`Murder/NonNegligentManslaughter`)
 ### This is positively skewed
 plotNormalHistogram(CrimeByNumber81_19$Rape)
@@ -70,3 +71,25 @@ plotNormalHistogram(CrimeByNumber81_19$`Larceny/Theft`)
 ### This is negatively skewed
 plotNormalHistogram(CrimeByNumber81_19$MotorVehicleTheft)
 # This is flat but normally distributed
+
+## The true question through all of this is, what has effected the violent crime rate the most over the years,
+### as well as what has had the most impact on property crime. 
+
+# Lets do some stepwise regression with this
+FitAll = lm(ViolentCrime ~ ., data= CrimeByNumber81_19)
+summary(FitAll)
+
+#Now using SQRT to normalize the distribution of the Violent Crime Data, because it was positively skewed
+CrimeByNumber81_19$ViolentCrime_SQRT <- sqrt(CrimeByNumber81_19$ViolentCrime)
+plotNormalHistogram(CrimeByNumber81_19$ViolentCrime_SQRT)
+#That worked to normalize the curve
+
+#Now SQ to normalize the distribution of the Property Crime data, because it is negatively skewed
+CrimeByNumber81_19$PropertyCrime_SQ <- CrimeByNumber81_19$PropertyCrime * CrimeByNumber81_19$PropertyCrime
+plotNormalHistogram(CrimeByNumber81_19$PropertyCrime_SQ)
+#That worked to normalize the curve
+
+## Lets test for homogeneity of variance
+bartlett.test(ViolentCrime ~ PropertyCrime, data = CrimeByNumber81_19)
+
+scatter.smooth(x = CrimeByNumber81_19$Year, y = CrimeByNumber81_19$ViolentCrime, main = "Violent Crime over the Years")
