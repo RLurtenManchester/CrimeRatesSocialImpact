@@ -52,6 +52,33 @@ str(CrimeByNumber81_19)
 CrimeByNumber81_19[21, 1] <- 2001
 CrimeByNumber81_19[38, 1] <- 2018
 
+## The true question through all of this is, what has effected the violent crime rate the most over the years,
+### as well as what has had the most impact on property crime. 
+
+# Lets do some stepwise regression with this
+## Baseline
+FitAll = lm(ViolentCrime ~ ., data= CrimeByNumber81_19)
+summary(FitAll)
+
+## Now lets run this backward
+step(FitAll, direction = "backward")
+
+## Load in Libraries
+library(car)
+library(caret)
+library(gvlma)
+library(predictmeans)
+library(e1071)
+
+## Lets see if there is any linearity between some of the columns 
+# Violent Crime and Property Crime
+scatter.smooth(x= CrimeByNumber81_19$ViolentCrime, y= CrimeByNumber81_19$PropertyCrime, main = "Violent Crime related to Property Crime")
+## That does look pretty linear, I'll come back to that.
+
+# Murder/NonNegligentHomicide and Rape
+scatter.smooth(x= CrimeByNumber81_19$`Murder/NonNegligentManslaughter`, y= CrimeByNumber81_19$Rape, main= "Murder and NonNegligent Homicide in relation to Rape")
+
+
 # Lets check for Normal Distribution so we can get into some interpretation of the data. 
 plotNormalHistogram(CrimeByNumber81_19$ViolentCrime)
 ### This is slightly positively skewed
@@ -72,13 +99,6 @@ plotNormalHistogram(CrimeByNumber81_19$`Larceny/Theft`)
 plotNormalHistogram(CrimeByNumber81_19$MotorVehicleTheft)
 # This is flat but normally distributed
 
-## The true question through all of this is, what has effected the violent crime rate the most over the years,
-### as well as what has had the most impact on property crime. 
-
-# Lets do some stepwise regression with this
-FitAll = lm(ViolentCrime ~ ., data= CrimeByNumber81_19)
-summary(FitAll)
-
 #Now using SQRT to normalize the distribution of the Violent Crime Data, because it was positively skewed
 CrimeByNumber81_19$ViolentCrime_SQRT <- sqrt(CrimeByNumber81_19$ViolentCrime)
 plotNormalHistogram(CrimeByNumber81_19$ViolentCrime_SQRT)
@@ -90,6 +110,6 @@ plotNormalHistogram(CrimeByNumber81_19$PropertyCrime_SQ)
 #That worked to normalize the curve
 
 ## Lets test for homogeneity of variance
-bartlett.test(ViolentCrime ~ PropertyCrime, data = CrimeByNumber81_19)
-
+bartlett.test(CrimeByNumber81_19$`Murder/NonNegligentManslaughter` ~ CrimeByNumber81_19$Rape)
+fligner.test(CrimeByNumber81_19$`Murder/NonNegligentManslaughter` ~ CrimeByNumber81_19$Rape)
 scatter.smooth(x = CrimeByNumber81_19$Year, y = CrimeByNumber81_19$ViolentCrime, main = "Violent Crime over the Years")
