@@ -107,3 +107,4 @@ VictimByGender2015to2019 <- rbind(VictimByGender2015B, VictimByGender2016B, Vict
 
 FitAll1 = lm(Male2015 ~ ., data = VictimByGender2015)
 summary(FitAll1)
+
