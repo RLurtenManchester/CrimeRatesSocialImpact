@@ -62,6 +62,9 @@ summary(FitAll)
 
 ## Now lets run this backward
 step(FitAll, direction = "backward")
+# the following is the formula that seems to fit best
+lm(formula = ViolentCrime ~ `Murder/NonNegligentManslaughter` + 
+     Rape + Robbery + AggravatedAssault, data = CrimeByNumber81_19)
 
 ## Load in Libraries
 library(car)
