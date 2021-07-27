@@ -66,6 +66,13 @@ step(FitAll, direction = "backward")
 lm(formula = ViolentCrime ~ `Murder/NonNegligentManslaughter` + 
      Rape + Robbery + AggravatedAssault, data = CrimeByNumber81_19)
 
+
+## Lets Run some stepwise regression on the other crime rates
+FitMurder = lm(`Murder/NonNegligentManslaughter` ~ ., data = CrimeByNumber81_19)
+summary(FitMurder)
+
+step(FitMurder, direction = "backward")
+
 ## Load in Libraries
 library(car)
 library(caret)
@@ -80,6 +87,10 @@ scatter.smooth(x= CrimeByNumber81_19$ViolentCrime, y= CrimeByNumber81_19$Propert
 
 # Murder/NonNegligentHomicide and Rape
 scatter.smooth(x= CrimeByNumber81_19$`Murder/NonNegligentManslaughter`, y= CrimeByNumber81_19$Rape, main= "Murder and NonNegligent Homicide in relation to Rape")
+
+# Murder/NonNegligentHomicide and PropertyCrime
+scatter.smooth(x= CrimeByNumber81_19$`Murder/NonNegligentManslaughter`, y = CrimeByNumber81_19$PropertyCrime, main= "Murder and NonNegligent Homicide in Relation to Property Crime")
+## I didn't think that would be as linear as it is, but that is nearly linear as well
 
 
 # Lets check for Normal Distribution so we can get into some interpretation of the data. 
