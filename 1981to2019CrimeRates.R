@@ -56,6 +56,7 @@ CrimeByNumber81_19[38, 1] <- 2018
 ### as well as what has had the most impact on property crime. 
 
 # Lets do some stepwise regression with this
+
 ## Baseline
 FitAll = lm(ViolentCrime ~ ., data= CrimeByNumber81_19)
 summary(FitAll)
