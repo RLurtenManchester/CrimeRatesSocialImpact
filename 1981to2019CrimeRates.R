@@ -34,11 +34,20 @@ CrimeByNumber81_19 <-rbind(CrimeByNumber81_99B, CrimeByNumber00_19A)
 library(rcompanion)
 str(CrimeByNumber81_19)
 ## All of the data seems to be in chr format, let me turn that in to num
-
-plotNormalHistogram(CrimeByNumber81_19$`Murder/NonNegligentManslaughter`)
+CrimeByNumber81_19$Year <- as.numeric(CrimeByNumber81_19$Year)
+CrimeByNumber81_19$ViolentCrime <- as.numeric(CrimeByNumber81_19$ViolentCrime)
+CrimeByNumber81_19$`Murder/NonNegligentManslaughter` <- as.numeric(CrimeByNumber81_19$`Murder/NonNegligentManslaughter`)
+CrimeByNumber81_19$Rape <- as.numeric(CrimeByNumber81_19$Rape)
+CrimeByNumber81_19$Robbery <- as.numeric(CrimeByNumber81_19$Robbery)
+CrimeByNumber81_19$AggravatedAssault <- as.numeric(CrimeByNumber81_19$AggravatedAssault)
+CrimeByNumber81_19$PropertyCrime <- as.numeric(CrimeByNumber81_19$PropertyCrime)
+CrimeByNumber81_19$Burglary <- as.numeric(CrimeByNumber81_19$Burglary)
+CrimeByNumber81_19$`Larceny/Theft` <- as.numeric(CrimeByNumber81_19$`Larceny/Theft`)
+CrimeByNumber81_19$MotorVehicleTheft <- as.numeric(CrimeByNumber81_19$MotorVehicleTheft)
+str(CrimeByNumber81_19)
 ## There seems to be a problem with a couple of the years, lets fix that really quick
 
--CrimeByNumber81_19[21, 1] <- 2001
+CrimeByNumber81_19[21, 1] <- 2001
 CrimeByNumber81_19[38, 1] <- 2018
 
 ## The true question through all of this is, what has effected the violent crime rate the most over the years,
@@ -46,9 +55,11 @@ CrimeByNumber81_19[38, 1] <- 2018
 
 -# Lets do some stepwise regression with this
   
-  ## Baseline
-  FitAll = lm(ViolentCrime ~ ., data= CrimeByNumber81_19)
-summary(FitAll)
+## Baseline
+
+FitAllViolent = lm(ViolentCrime ~ ., data= CrimeByNumber81_19)
+
+summary(FitAllViolent)
 
 ## Now lets run this backward
 step(FitAll, direction = "backward")
@@ -73,48 +84,87 @@ library(e1071)
 ## Lets see if there is any linearity between some of the columns 
 # Violent Crime and Property Crime
 scatter.smooth(x= CrimeByNumber81_19$ViolentCrime, y= CrimeByNumber81_19$PropertyCrime, main = "Violent Crime related to Property Crime")
-## That does look pretty linear, I'll come back to that.
+## Creating the Linear Model
+ViolentPropertylmMod <- lm(ViolentCrime ~ PropertyCrime, data = CrimeByNumber81_19)
+#Test for Homoscedasticity
+par(mfrow = c(2,2))
+plot(ViolentPropertylmMod)
+
+lmtest::bptest(ViolentPropertylmMod)
+## The p-value is under .05 so it does not meet the need for homoscedasticity
+### Correcting for Homoscedasticity violations
+dcViolentPropertyMod1 <- caret::BoxCoxTrans(CrimeByNumber81_19$ViolentCrime)
+print(dcViolentPropertyMod1)
+
+CrimeByNumber81_19 <- cbind(CrimeByNumber81_19, dist_NewM=predict(dcViolentPropertyMod1, CrimeByNumber81_19$ViolentCrime))
+ViolentPropertylmMod_bc2 <- lm(dist_NewM~PropertyCrime, data = CrimeByNumber81_19)
+lmtest::bptest(ViolentPropertylmMod_bc2)
+## The results are no longer significant so I can continue
+## Testing for homogeneity of variance
+gvlma(ViolentPropertylmMod_bc2)
+
+summary(ViolentPropertylmMod_bc2)
+### There is a significant linear relationship between Violent Crime and Property Crime
 
 # Murder/NonNegligentHomicide and Rape
 scatter.smooth(x= CrimeByNumber81_19$`Murder/NonNegligentManslaughter`, y= CrimeByNumber81_19$Rape, main= "Murder and NonNegligent Homicide in relation to Rape")
 
+## Creating the Linear Model
+MurderRapelmMod <- lm(`Murder/NonNegligentManslaughter` ~ Rape, data = CrimeByNumber81_19)
+#Test for Homoscedasticity
+par(mfrow = c(2,2))
+plot(MurderRapelmMod)
+
+lmtest::bptest(ViolentPropertylmMod)
+## The p-value is under .05 so it does not meet the need for homoscedasticity
+### Correcting for Homoscedasticity violations
+dcMurderRapeMod1 <- caret::BoxCoxTrans(CrimeByNumber81_19$`Murder/NonNegligentManslaughter`)
+print(dcMurderRapeMod1)
+
+CrimeByNumber81_19 <- cbind(CrimeByNumber81_19, dist_NewM2=predict(dcMurderRapeMod1, CrimeByNumber81_19$`Murder/NonNegligentManslaughter`))
+MurderRapelmMod_bc2 <- lm(dist_NewM2~Rape, data = CrimeByNumber81_19)
+lmtest::bptest(ViolentPropertylmMod_bc2)
+## The results are no longer significant so I can continue
+## Testing for homogeneity of variance
+gvlma(MurderRapelmMod_bc2)
+
+summary(MurderRapelmMod_bc2)
+### There is a linear relationship between Murder and Rape
+
 # Murder/NonNegligentHomicide and PropertyCrime
 scatter.smooth(x= CrimeByNumber81_19$`Murder/NonNegligentManslaughter`, y = CrimeByNumber81_19$PropertyCrime, main= "Murder and NonNegligent Homicide in Relation to Property Crime")
-## I didn't think that would be as linear as it is, but that is nearly linear as well
 
+## Creating the Linear Model
+MurderPropertylmMod <- lm(`Murder/NonNegligentManslaughter` ~ PropertyCrime, data = CrimeByNumber81_19)
+#Test for Homoscedasticity
+par(mfrow = c(2,2))
+plot(MurderPropertylmMod)
 
-# Lets check for Normal Distribution so we can get into some interpretation of the data. 
-plotNormalHistogram(CrimeByNumber81_19$ViolentCrime)
-### This is slightly positively skewed
-plotNormalHistogram(CrimeByNumber81_19$`Murder/NonNegligentManslaughter`)
-### This is positively skewed
-plotNormalHistogram(CrimeByNumber81_19$Rape)
-# This is normally distributed
-plotNormalHistogram(CrimeByNumber81_19$Robbery)
-## This is fairly flat but it is normally distributed
-plotNormalHistogram(CrimeByNumber81_19$AggravatedAssault)
-# This is normally distributed
-plotNormalHistogram(CrimeByNumber81_19$PropertyCrime)
-### This is negatively skewed
-plotNormalHistogram(CrimeByNumber81_19$Burglary)
-# This is normally distributed
-plotNormalHistogram(CrimeByNumber81_19$`Larceny/Theft`)
-### This is negatively skewed
-plotNormalHistogram(CrimeByNumber81_19$MotorVehicleTheft)
-# This is flat but normally distributed
+lmtest::bptest(MurderPropertylmMod)
+## The p-value is over .05 so it does meet the need for homoscedasticity
+### Correcting for Homoscedasticity violations
 
-#Now using SQRT to normalize the distribution of the Violent Crime Data, because it was positively skewed
-CrimeByNumber81_19$ViolentCrime_SQRT <- sqrt(CrimeByNumber81_19$ViolentCrime)
-plotNormalHistogram(CrimeByNumber81_19$ViolentCrime_SQRT)
-#That worked to normalize the curve
+## Testing for homogeneity of variance
+gvlma(MurderPropertylmMod)
 
-#Now SQ to normalize the distribution of the Property Crime data, because it is negatively skewed
-CrimeByNumber81_19$PropertyCrime_SQ <- CrimeByNumber81_19$PropertyCrime * CrimeByNumber81_19$PropertyCrime
-plotNormalHistogram(CrimeByNumber81_19$PropertyCrime_SQ)
-#That worked to normalize the curve
-## There seems to be a problem with a couple of the years, lets fix that really quick
+summary(ViolentPropertylmMod)
+### There is a significant linear relationship between Murder and Property Crime
 
-## Lets test for homogeneity of variance
-bartlett.test(CrimeByNumber81_19$`Murder/NonNegligentManslaughter` ~ CrimeByNumber81_19$Rape)
-fligner.test(CrimeByNumber81_19$`Murder/NonNegligentManslaughter` ~ CrimeByNumber81_19$Rape)
-scatter.smooth(x = CrimeByNumber81_19$Year, y = CrimeByNumber81_19$ViolentCrime, main = "Violent Crime over the Years")
+# Rape and PropertyCrime
+scatter.smooth(x= CrimeByNumber81_19$Rape, y = CrimeByNumber81_19$PropertyCrime, main= "Rape in Relation to Property Crime")
+
+## Creating the Linear Model
+RapePropertylmMod <- lm(Rape ~ PropertyCrime, data = CrimeByNumber81_19)
+#Test for Homoscedasticity
+par(mfrow = c(2,2))
+plot(RapePropertylmMod)
+
+lmtest::bptest(MurderPropertylmMod)
+## The p-value is over .05 so it does meet the need for homoscedasticity
+### Correcting for Homoscedasticity violations
+
+## Testing for homogeneity of variance
+gvlma(RapePropertylmMod)
+
+summary(RapePropertylmMod)
+### There is not a significant linear relationship between Rape and Property Crime
