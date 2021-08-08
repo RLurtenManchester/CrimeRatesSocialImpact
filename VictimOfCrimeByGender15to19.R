@@ -55,11 +55,11 @@ library(dplyr)
 VictimByGender2015A <- t(VictimByGender2015)
 VictimByGender2015B <- VictimByGender2015A [2:5, ]
 colnames(VictimByGender2015B)<- c("Total", "CrimesAgainstPersons", "AssaultOffenses", "HomicideOffenses",
-                                  "HumanTraffickingOffenses", "Kidnapping/Abduction", "SexOffenses", 
-                                  "SexOffenses/NonForcible", "CrimesAgainstProperty", "Arson", "Bribery", 
-                                  "Burglary/BrakingEntering", "Counterfeiting/Forgery", "Destruction/Damage/Vandalism", 
-                                  "Embezzelment", "Extortion/Blackmail", "FraudOffenses", "Larceny/Theft","MotorVehicleTheft",
-                                  "Robbery", "StolenPropertyOffenses")
+                                "HumanTraffickingOffenses", "Kidnapping/Abduction", "SexOffenses", 
+                                "SexOffenses/NonForcible", "CrimesAgainstProperty", "Arson", "Bribery", 
+                                "Burglary/BrakingEntering", "Counterfeiting/Forgery", "Destruction/Damage/Vandalism", 
+                                "Embezzelment", "Extortion/Blackmail", "FraudOffenses", "Larceny/Theft","MotorVehicleTheft",
+                                "Robbery", "StolenPropertyOffenses")
 
 ## 2016
 VictimByGender2016A <- t(VictimByGender2016)
@@ -104,7 +104,3 @@ colnames(VictimByGender2019B)<- c("Total", "CrimesAgainstPersons", "AssaultOffen
 # Now lets put all of them together and see how it looks
 VictimByGender2015to2019 <- rbind(VictimByGender2015B, VictimByGender2016B, VictimByGender2017B,
                                   VictimByGender2018B, VictimByGender2019B)
-
-FitAll1 = lm(Male2015 ~ ., data = VictimByGender2015)
-summary(FitAll1)
-

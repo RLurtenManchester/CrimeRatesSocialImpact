@@ -54,7 +54,6 @@ colnames(VictimByRace2019) <- c("OffenseCategory", "TotalVictims2019", "White201
 library(ggplot2)
 library(tidyr)
 library(dplyr)
-library(rcompanion)
 
 #Now to flip this data and name the other columns to start comparing the info from different years
 ## 2015
@@ -113,15 +112,6 @@ VictimByRace2015to2019 <- rbind(VictimByRace2015B, VictimByRace2016B, VictimByRa
                                 VictimByRace2019B)
 
 ## Now lets check the data format
-str(VictimByRace2015B)
+str(VictimByRace2015to2019)
 ## Lets change these into numeric
-
-VictimByRace2015to2019A <-as.matrix(VictimByRace2015to2019)
-heatmap(VictimByRace2015to2019A)
-
-treemap(VictimByRace2015B)
-VictimByRace2015C <- t(VictimByRace2015)
-
-library(gmodels)
-library(gdata)
-CrossTable()
+VictimByRace2015to2019$Total <- as.numeric(VictimByRace2015to2019$Total)
