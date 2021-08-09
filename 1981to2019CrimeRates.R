@@ -53,7 +53,7 @@ CrimeByNumber81_19[38, 1] <- 2018
 ## The true question through all of this is, what has effected the violent crime rate the most over the years,
 ### as well as what has had the most impact on property crime. 
 
--# Lets do some stepwise regression with this
+# Lets do some stepwise regression with this
   
 ## Baseline
 
