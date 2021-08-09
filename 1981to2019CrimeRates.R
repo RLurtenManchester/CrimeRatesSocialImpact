@@ -74,6 +74,12 @@ summary(FitMurder)
 
 step(FitMurder, direction = "backward")
 
+# Stepwise on Rape
+FitRape = lm(Rape ~ ., data = CrimeByNumber81_19)
+summary(FitRape)
+
+step(FitRape, direction = "backward")
+
 ## Load in Libraries
 library(car)
 library(caret)
