@@ -148,7 +148,6 @@ plot(MurderPropertylmMod)
 
 lmtest::bptest(MurderPropertylmMod)
 ## The p-value is over .05 so it does meet the need for homoscedasticity
-### Correcting for Homoscedasticity violations
 
 ## Testing for homogeneity of variance
 gvlma(MurderPropertylmMod)
@@ -167,7 +166,6 @@ plot(RapePropertylmMod)
 
 lmtest::bptest(MurderPropertylmMod)
 ## The p-value is over .05 so it does meet the need for homoscedasticity
-### Correcting for Homoscedasticity violations
 
 ## Testing for homogeneity of variance
 gvlma(RapePropertylmMod)
@@ -181,3 +179,8 @@ scatter.smooth(x= CrimeByNumber81_19$AggravatedAssault, y = CrimeByNumber81_19$R
 ## That doesnt look linear at all but lets do some testing to see what we can find. 
 AggAssaultRobberylmMod <- lm(AggravatedAssault ~ Robbery, data = CrimeByNumber81_19)
 # Test for Homoscedasticity
+par(mfrow = c(2,2))
+plot(AggAssaultRobberylmMod)
+
+lmtest::bptest(AggAssaultRobberylmMod)
+## The p-value is under 0.05 so it doesn't meet the need for homoscedasticity 
