@@ -174,3 +174,10 @@ gvlma(RapePropertylmMod)
 
 summary(RapePropertylmMod)
 ### There is not a significant linear relationship between Rape and Property Crime
+
+# Aggravated Assault and Burglary
+scatter.smooth(x= CrimeByNumber81_19$AggravatedAssault, y = CrimeByNumber81_19$Robbery, main= "Aggravated Assault in Relation to Burglary")
+
+## That doesnt look linear at all but lets do some testing to see what we can find. 
+AggAssaultRobberylmMod <- lm(AggravatedAssault ~ Robbery, data = CrimeByNumber81_19)
+# Test for Homoscedasticity
