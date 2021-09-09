@@ -41,7 +41,7 @@ colnames(VictimByGender2018) <- c("Total", "TotalVictims2018", "Male2018", "Fema
                                   "unknown2018")
 
 ## 2019
-VictimByGender2019 <- victims_sex_by_offense_category_2019 [5:25, 1:5]
+VictimByGender2019 <- victims_sex_by_offense_category_2019 [5:24, 1:5]
 # Rename the columns
 colnames(VictimByGender2019) <- c("Total", "TotalVictims2019", "Male2019", "Female2019", 
                                   "unknown2019")
