@@ -43,10 +43,27 @@ colnames(VictimByGender2018) <- c("Total", "TotalVictims2018", "Male2018", "Fema
 ## 2019
 VictimByGender2019 <- victims_sex_by_offense_category_2019 [5:24, 1:5]
 # Rename the columns
-colnames(VictimByGender2019) <- c("Total", "TotalVictims2019", "Male2019", "Female2019", 
+colnames(VictimByGender2019) <- c("Total", "TotalVictims2019", "Male2019", "emale2019", 
                                   "unknown2019")
 
-### Load in libraries to keep working on this
+
+## Reformatting data so i can combine it 
+VictimByGender2015A <- VictimByGender2015 [5:24, 2:5]
+
+VictimByGender2016A <- VictimByGender2016 [5:24, 2:5]
+
+VictimByGender2017A <- VictimByGender2017 [5:24, 2:5]
+
+VictimByGender2018A <- VictimByGender2018 [5:24, 2:5]
+
+VictimByGender2019A <- VictimByGender2019 [5:24, 2:5]
+
+# Now to combine the data and see what this table looks like (using the original 2015 to have column labels
+
+VictimByGender2015_2019 <- rbind(VictimByGender2015A, VictimByGender2016A, VictimByGender2017A, VictimByGender2018A, VictimByGender2019A)
+
+
+)### Load in libraries to keep working on this
 library(ggplot2)
 library(tidyr)
 library(dplyr)
@@ -104,3 +121,5 @@ colnames(VictimByGender2019B)<- c("Total", "CrimesAgainstPersons", "AssaultOffen
 # Now lets put all of them together and see how it looks
 VictimByGender2015to2019 <- rbind(VictimByGender2015B, VictimByGender2016B, VictimByGender2017B,
                                   VictimByGender2018B, VictimByGender2019B)
+
+VictimBYGender2015to2019A <- 
